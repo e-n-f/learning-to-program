@@ -1,0 +1,193 @@
+5  lomem: 24576
+6  poke 768,4: poke 769,0: poke 770,0: poke 771,0
+7  scale= 1: rot= 0
+10  text : home 
+13  normal 
+15  print "MICR0FISCHE, INC. PRESENTS": print 
+20  print "===== =   = ====="
+30  print "  =   =   = =    "
+40  print "  =   ===== ==== "
+50  print "  =   =   = =    "
+60  print "  =   =   = ====="
+70  print 
+80  print "====  ====  === =   = ====="
+90  print "=   = =   =  =  ==  =   =  "
+91  print "=   = =   =  =  = = =   =  "
+92  print "====  ====   =  = = =   =  "
+93  print "=     =   =  =  =  ==   =  "
+94  print "=     =   = === =   =   =  "
+97  print 
+100  print "====  =   = =   = ===="
+110  print "=   = =   = == == =   ="
+120  print "=   = =   = = = = =   ="
+130  print "=   = =   = = = = ===="
+140  print "=   = =   = =   = ="
+150  print "====   ===  =   = ="
+160  print : print "BY ERIC FISCHER  (C)1987, MICROFISCHE"
+170  print "                                  (KEY)";: get A$: print 
+180  home 
+190  inverse : print "     T H E   P R I N T   D U M P        ";
+200  normal 
+210  print : print 
+220  print "1. GREETING CARD"
+230  print "2. SIGN"
+240  print "3. LETTERHEAD"
+250  print "4. SCREEN MAGIC"
+255  print "5. GRAPHICS EDITOR"
+260  print "6. QUIT"
+300  vtab 23: print "CHOOSE ONE:": get K$
+310  if K$ = "2" then 400
+320  if K$ = "5" then 700
+330  if K$ = "3" then 900
+340  if K$ = "4" then 1100
+350  if K$ = "1" then 1300
+390  if K$ = "6" then  end 
+399  goto 180
+400  gr : hgr : home : inverse : print " S I G N                                ";
+410  normal : print 
+415  hcolor= 3: hplot 0,0 to 80,0 to 80,60 to 0,60 to 0,0
+420  print "DO YOU WANT A PICTURE? (Y/N)": get K$: on K$ = "Y" goto 430: on K$ = "N" goto 500: goto 420
+430  input "NAME OF PICTURE:";A$
+440  print  chr$ (4)"OPEN"A$: print  chr$ (4)"READ"A$
+450  restore : for Y = 0 to 60: read L: for X = 0 to 11: get K$: poke L + X, asc (K$ +  chr$ (0))
+460  next : next : print : print  chr$ (4)"CLOSE"
+500  poke  - 16368,0
+505  input "WHAT TYPESTYLE DO YOU WANT?             ";A$
+507  if A$ = "" then 505
+510  print  chr$ (4)"BLOAD "A$",A$4000": poke 232,0: poke 233,64
+520 Y = 2
+530  xdraw 96 at 2,Y
+532  input "LINE (DONE TO END):";R$
+533  xdraw 96 at 2,Y
+535  if R$ = "DONE" then 550
+537  if R$ = "" then Y = Y + 8: goto 530
+540  xdraw 100 at 2,Y: for A = 1 to  len (R$): xdraw  asc ( mid$ (R$,A,1)) - 31: xdraw 99: next :Y = Y + 8
+545  goto 530
+550  poke 232,0: poke 233,3: print "PRESS P TO PRINT OR N TO RETURN TO MENU": get K$
+560  if K$ = "N" then  run 
+570  if K$ <  > "P" then 550
+580  print : print  chr$ (4)"PR#1"
+585  print  chr$ (9)"100N"
+590  for Y = 0 to 60: for X = 1 to 79
+600  xdraw 1 at X,Y: xdraw 1 at X,Y
+610 A$ = " ": if  peek (234) <  > 0 then A$ = "M"
+620  print A$;: next : print : next : print  chr$ (4)"PR#0": run 
+700  gr : hgr : hcolor= 3: hplot 0,0 to 80,0 to 80,60 to 0,60 to 0,0
+709  poke 232,0: poke 233,3
+710  home : inverse : print " G R A P H I C S   E D I T O R          ";: normal : print 
+720  print "JOYSTICK TO MOVE, BUTTON TO DRAW, L TO  LOAD, S TO SAVE, K FOR KAL., Q FOR MENU";: vtab 22: htab 1
+725  htab 1
+730  if  peek ( - 16384) > 127 then 750
+740  hcolor= 3 * ( peek ( - 16287) > 127): hplot 80 / 256 *  pdl (0),60 / 256 *  pdl (1): goto 730
+750  get K$: if K$ = "S" then 800
+755  if K$ = "K" then  gosub 1150: goto 710
+760  if K$ = "L" then 850
+770  if K$ = "Q" then  run 
+800  input "FILENAME TO SAVE:";A$: print  chr$ (4)"OPEN"A$: print  chr$ (4)"WRITE"A$
+810  restore : for Y = 0 to 60: read L: for X = 0 to 11:J =  peek (L + X): print  chr$ (J + (J = 4 or J = 132));
+820  poke L + X,255 -  peek (L + X): poke L + X,255 -  peek (L + X)
+830  next : next : print : print  chr$ (4)"CLOSE": goto 720
+850  input "FILENAME TO LOAD:";A$: print  chr$ (4)"OPEN"A$: print  chr$ (4)"READ"A$
+851  restore : for Y = 0 to 60: read L: for X = 0 to 11: get K$: poke L + X, asc (K$ +  chr$ (0))
+855  next : next : print : print  chr$ (4)"CLOSE"
+860  goto 710
+900  gr : hgr : home : inverse : print " L E T T E R H E A D                    ";: normal : print 
+910  hcolor= 3: hplot 0,0 to 80,0 to 80,12 to 0,12 to 0,0
+920  input "WHAT TYPESTYLE?";A$: print  chr$ (4)"BLOAD"A$",A$4000": poke 232,0: poke 233,64
+930  input "TOP LINE (BIG):";A$
+940  xdraw 100 at 2,2: for A = 1 to  len (A$): xdraw  asc ( mid$ (A$,A,1)) - 31: xdraw 99: next 
+950  input "1ST ADDRESS LN:";A1$
+960  input "2ND ADDRESS LN:";A2$
+970  input "3RD ADDRESS LN:";A3$
+980  print "PRESS P TO PRINT OR N FOR MENU:": get K$: if K$ = "P" then 1000
+990  if K$ = "N" then  run 
+995  goto 980
+1000  print : print  chr$ (4)"PR#1"
+1010  poke 232,0: poke 233,3
+1020  print : print  chr$ (4)"PR#1"
+1030  print  chr$ (9)"100N"
+1032  for Y = 0 to 12: for X = 1 to 79
+1034  xdraw 1 at X,Y: xdraw 1 at X,Y
+1036 A$ = " ": if  peek (234) <  > 0 then A$ = "M"
+1038  print A$;: next : print : next 
+1040 A$ = A1$: gosub 1090:A$ = A2$: gosub 1090:A$ = A3$: gosub 1090: print  chr$ (4)"PR#0": run 
+1090  htab 41 -  len (A$) / 2: print A$: return 
+1100  gr : hgr : home : inverse : print " S C R E E N   M A G I C                ";: normal : print 
+1110  print "1. SEE KALIEDOSCOPE       2. DRAW TEXT  3. PRINT SCREEN           Q. MAIN MENU";: vtab 22: htab 1
+1120  get K$: if K$ = "1" then  gosub 1150: goto 1110
+1130  if K$ = "2" then 1200
+1135  if K$ = "3" then 1250
+1143  if K$ = "Q" then  run 
+1145  goto 1120
+1150  hgr : home : hcolor= 3: hplot 0,0 to 80,0 to 80,60 to 0,60 to 0,0
+1160  poke 228, rnd (1) * 256:X1 =  rnd (1) * 80:X2 =  rnd (1) * 80:Y1 =  rnd (1) * 60:Y2 =  rnd (1) * 60
+1170  hplot X1,Y1 to X2,Y2
+1180  hplot 80 - X1,Y1 to 80 - X2,Y2
+1190  hplot X1,60 - Y1 to X2,60 - Y2
+1191  hplot 80 - X1,60 - Y1 to 80 - X2,60 - Y2
+1192  if  peek ( - 16384) = 155 then  poke  - 16368,0: return 
+1193  goto 1160
+1200  input "WHAT TYPESTYLE DO YOU WANT?             ";A$
+1202  if A$ = "" then 1200
+1204  print  chr$ (4)"BLOAD "A$",A$4000": poke 232,0: poke 233,64
+1206 Y = 2
+1208  xdraw 96 at 2,Y
+1210  input "LINE (DONE TO END):";R$
+1212  xdraw 96 at 2,Y
+1214  if R$ = "DONE" then 1222
+1215  if R$ = "" then 1218
+1216  hcolor= 0: for XX = 1 to 3: for YY = Y - 1 to Y + 1: gosub 1230: next : next : hcolor= 3:XX = 2:YY = Y: gosub 1230
+1218 Y = Y + 8
+1220  goto 1208
+1222  goto 1110
+1230  xdraw 100 at XX,YY: for A = 1 to  len (R$): draw  asc ( mid$ (R$,A,1)) - 31: draw 99: next 
+1231  return 
+1250  poke 232,0: poke 233,3: print "PRESS P TO PRINT OR N TO RETURN TO MENU": get K$
+1251  if K$ = "N" then 1110
+1253  if K$ <  > "P" then 1250
+1256  print : print  chr$ (4)"PR#1"
+1258  print  chr$ (9)"100N"
+1260  for Y = 0 to 60: for X = 1 to 79
+1262  xdraw 1 at X,Y: xdraw 1 at X,Y
+1264 A$ = " ": if  peek (234) <  > 0 then A$ = "M"
+1268  print A$;: next : print : next : print  chr$ (4)"PR#0": goto 1110
+1300  gr : hgr : inverse : print " G R E E T I N G   C A R D              ";: normal : print 
+1310  hcolor= 3: hplot 79,0 to 41,0 to 41,30 to 79,30 to 79,0
+1320  hplot 40,30 to 1,30 to 1,60 to 40,60 to 40,30
+1323  print "OUTSIDE:"
+1325  input "TYPESTYLE:";A$: print  chr$ (4)"BLOAD"A$",A$4000": poke 232,0: poke 233,64
+1326 Y = 2
+1332  xdraw 96 at 43,Y
+1334  input "LINE (DONE TO END):";R$
+1336  xdraw 96 at 43,Y
+1338  if R$ = "DONE" then 1348
+1340  if R$ = "" then Y = Y + 8: goto 1332
+1342  xdraw 100 at 43,Y: for A = 1 to  len (R$): xdraw  asc ( mid$ (R$,A,1)) - 31: xdraw 99: next :Y = Y + 8
+1344  goto 1332
+1348 :
+1350  print "INSIDE:":Y = 58
+1352  input "TYPESTYLE:";A$: print  chr$ (4)"BLOAD"A$",A$4000": rot= 32: poke 232,0: poke 233,64
+1354  xdraw 96 at 38,Y
+1356  input "LINE (DONE TO END):";R$
+1358  xdraw 96 at 38,Y
+1360  if R$ = "DONE" then 1370
+1362  if R$ = "" then Y = Y - 8: goto 1354
+1364  xdraw 100 at 38,Y: for A = 1 to  len (R$): xdraw  asc ( mid$ (R$,A,1)) - 31: xdraw 99: next :Y = Y - 8
+1366  goto 1354
+1370  rot= 0
+1380  poke 232,0: poke 233,3: print "PRESS P TO PRINT OR N TO RETURN TO MENU": get K$
+1382  if K$ = "N" then  run 
+1384  if K$ <  > "P" then 1380
+1386  print : print  chr$ (4)"PR#1"
+1388  print  chr$ (9)"100N"
+1390  for Y = 0 to 60: for X = 1 to 79
+1392  xdraw 1 at X,Y: xdraw 1 at X,Y
+1394 A$ = " ": if  peek (234) <  > 0 then A$ = "M"
+1396  print A$;: next : print : next : print  chr$ (4)"PR#0": run 
+5010  data  8192,9216,10240,11264,12288,13312,14336,15360,8320,9344
+5020  data  10368,11392,12416,13440,14464,15488,8448,9472,10496,11520
+5030  data  12544,13568,14592,15616,8576,9600,10624,11648,12672,13696
+5040  data  14720,15744,8704,9728,10752,11776,12800,13824,14848,15872
+5050  data  8832,9856,10880,11904,12928,13952,14976,16000,8960,9984
+5060  data  11008,12032,13056,14080,15104,16128,9088,10112,11136,12160
+5070  data  13184,

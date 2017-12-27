@@ -1,0 +1,192 @@
+1  rem  297,304
+2  print  chr$ (21)
+5  if  peek (104) <  > 64 then  poke 104,64: poke 16384,0: print  chr$ (4)"RUN PRINTDUMP2"
+6  scale= 1: rot= 0
+10  dim FT$(13)
+15  dim ME$(20)
+17  dim TX$(16)
+20  for A = 1 to 13: read FT$(A): next 
+30  data Garamond,BigTimes,News.Font,Old.English,Handwritten,Chicago,ImageWriter,Toronto,Typeset,Tiny.New.York,Small.Font,Small.Square,DinkyFont
+35  for A = 768 to 768 + 16: read B: poke A,B: next 
+36  data  3,0,8,0,10,0,15,0,4,0,5,6,7,4,0,5,0 
+40  goto 200
+50  hgr : hcolor= 3: rem  BLANK SCREEN
+51  home 
+52  vtab 24
+55  hplot 0,159 to 279,159
+60  hplot 0,0 to 0,131 to 131,131 to 131,0 to 0,0
+70  return 
+80  print  chr$ (4)"BLOAD"FT$",A$800": poke 232,0: poke 233,8: return : rem  LOAD FONT
+90  hcolor= 3: hplot 133,158 to 279,158
+95  hcolor= 0: for ZX = 0 to 146 step 2: hplot ZX + 133,0 to ZX + 133,158: hplot 278 - ZX,0 to 278 - ZX,158: next : return : rem   wipe right
+100  if MS$ = "" then  return 
+103  poke 232,0: poke 233,8: xdraw 100 at ZX,ZY: for ZX = 1 to  len (MS$): xdraw  asc ( mid$ (MS$,ZX,1)) - 31: xdraw 99: next : return : rem              XDRAW TEXT
+105  if MS$ = "" then  return 
+106  poke 232,0: poke 233,8: draw 100 at ZX,ZY: for ZX = 1 to  len (MS$): draw  asc ( mid$ (MS$,ZX,1)) - 31: draw 99: next : return : rem                DRAW TEXT 
+107  hcolor= 3: goto 100
+110  for ZZ = 1 to ME: rem  MENU
+120 MS$ = ME$(ZZ):ZX = 135:ZY = ZZ * 8: gosub 100: next 
+130 MX = 1
+140  hcolor= 3: hplot 135,MX * 8 + 7 to 279,MX * 8 + 7: hcolor= 0: hplot 135,MX * 8 + 7 to 279,MX * 8 + 7: if  peek ( - 16384) < 128 then 140
+142 K$ =  chr$ ( peek ( - 16384) - 128): poke  - 16368,0
+144  if K$ =  chr$ (13) then  return 
+146  if (K$ =  chr$ (8) or K$ =  chr$ (11)) and MX > 1 then MX = MX - 1: goto 140
+148  if (K$ =  chr$ (21) or K$ =  chr$ (10)) and MX < ME then MX = MX + 1: goto 140
+149  goto 140
+150  goto 5000
+151  poke 232,0: poke 233,3
+152  for MY = 0 to 131: print " ";: for MX = 0 to 131
+154  xdraw 1 at MX,MY: xdraw 1 at MX,MY:MN$ = " ": if  peek (234) then MN$ = "="
+155  print MN$;: next : print : next : print  chr$ (12): print  chr$ (4)"PR#0": return 
+199  end 
+200 FT$ = "GARAMOND": gosub 80
+205  text : home : vtab 24
+206  print "  T H E   P R I N T   D U M P   I I": print "  b y   E r i c       F i s c h e r"
+210 ME$(1) = "Greeting Card":ME$(2) = "Sign":ME$(3) = "Letterhead":ME$(4) = "Graphics Editor":ME$(5) = "Quit"
+215 ME = 5
+220  gosub 50
+221 CF = 0:CB = 0
+225  print "  T H E   P R I N T   D U M P   I I": print "  b y   E r i c   F i s c h e r"
+226  for TX = 1 to 16:TX$(TX) = ""
+227  next 
+230  gosub 110
+240  on MX goto 1000,500,1500,2000,2500
+300  poke  - 16297,0: poke  - 16304,0: return : rem  GRAPHICS
+310  text : return : rem  TEXT
+320  gosub 310: home : rem  TEXT EDIT
+321  vtab 1: print  tab 20);"Centered": print  tab 20)"Left": print  tab 20)"Right"
+322  print  tab 20)"No change"
+330 MX = 1
+340  vtab 18: print "Type text above.  Press ESC when done"
+345  print "Press -> (right arrow) for styles"
+350  print : for MZ = 1 to 16: vtab MZ: print TX$(MZ): next 
+360  vtab MX: htab 1: print TX$(MX);" ": vtab MX: htab  len (TX$(MX)) + 1: get K$
+370  if K$ =  chr$ (27) then 300
+371  if K$ =  chr$ (21) then 398
+372  if (K$ =  chr$ (10) or K$ =  chr$ (13)) and MX < 16 then MX = MX + 1
+374  if K$ =  chr$ (11) and MX > 1 then MX = MX - 1
+376  if K$ >  = " " and  len (TX$(MX)) < 16 then TX$(MX) = TX$(MX) + K$
+378  if K$ =  chr$ (8) and  len (TX$(MX)) > 0 then TX$(MX) =  mid$ (TX$(MX),1, len (TX$(MX)) - 1)
+380  goto 360
+390  print  chr$ (4)"OPEN"FI$",T$01": print  chr$ (4)"READ"FI$: rem    READ PIC
+395  for Y = 0 to 131:A =  int (Y / 8):C = Y - A * 8:B = C * 1024 + A * 128 - ((A > 7) + (A > 15)) * 984 + 8192
+396  for X = 0 to 18: get K$: poke B + X, asc (K$ +  chr$ (0)): next : next : print  chr$ (4)"CLOSE": return 
+398 A$ = TX$(MX)
+399  if  left$ (A$,1) = " " then A$ =  mid$ (A$,2): goto 399
+400  if  right$ (A$,1) = " " then A$ =  left$ (A$, len (A$) - 1)
+401 MN = 1
+405  vtab MN: htab 18: get K$: if K$ =  chr$ (13) then 410
+406  if (K$ =  chr$ (8) or K$ =  chr$ (11)) and MN > 1 then MN = MN - 1
+407  if (K$ =  chr$ (21) or K$ =  chr$ (10)) and MN < 4 then MN = MN + 1
+408  goto 405
+410  if MN = 4 then 360
+412  if MN = 1 then  for B = 1 to 8 -  len (A$) / 2:A$ = " " + A$: next 
+413  if MN = 2 then A$ = A$
+414  if MN = 3 then  for B = 1 to 16 -  len (A$):A$ = " " + A$: next 
+415 TX$(MX) = A$: goto 350
+420  print  chr$ (4)"IN#4": input "";X,Y,S: print  chr$ (4)"IN#0": return : rem  READ MOUSE
+500  gosub 50
+510  print "====== SIGN ======"
+511 ME$(1) = "Type its name"
+512 ME$(2) = "List names":ME$(3) = "No picture":ME = 3
+515  print : print "Choose a picture"
+520  gosub 110
+530  on MX goto 540,570,590
+540  input "|:- ";FI$
+545  if FI$ = "" then 500
+550  gosub 390
+560  goto 590
+570  gosub 310: vtab 1: print  chr$ (4)"CAT,T$01": get K$: gosub 300: goto 500
+590  print  chr$ (4)"BSAVE/RAM/PIC,A$2000,L$2000"
+600  home : vtab 24: print "Choose a font"
+601  print  chr$ (4)"BLOAD/RAM/PIC"
+602 FT$ = "GARAMOND": gosub 80
+603  gosub 90
+605 ME = 14: for A = 1 to 13:ME$(A) = FT$(A): next :ME$(14) = "= New Picture =": gosub 110
+606  if MX = 14 then 500
+607 FA$ = FT$(MX)
+610  home : vtab 24: print "And type the text to be printed": gosub 320
+620 FT$ = FA$: gosub 80
+630  for Y = 1 to 16
+640 MS$ = TX$(Y):ZX = 2:ZY = (Y - 1) * 8 + 2: gosub 107
+650  next 
+655 FT$ = "Garamond": gosub 80
+660  home : vtab 24
+670  gosub 90:ME$(1) = "Change Sign"
+680 ME$(2) = "Print Sign":ME$(3) = "Go to main menu":ME = 3
+690  gosub 110: if MX = 1 then 600
+700  if MX = 2 then  gosub 150
+705  if MX = 3 then 200
+710  goto 660
+1000  gosub 50
+1010  print "====== GREETING CARD ======"
+1020  print "Choose one:"
+1030 ME$(1) = "Make front of card"
+1040 ME$(2) = "Make back of card"
+1045 ME$(3) = "Go to main menu"
+1050 ME = 3
+1060  if CF and CB then ME$(4) = "Print Card":ME = 4
+1070  gosub 110
+1080  if MX = 1 then 1100
+1090  if MX = 2 then 1200
+1093  if MX = 3 then 200
+1095  if MX = 4 then 1300
+1100 CF = 1: gosub 50
+1500  gosub 50
+1510  print "====== LETTERHEAD ======"
+2000  gosub 50
+2010  print "====== GRAPHICS EDITOR ======"
+2013 C = 3
+2015  print "Use mouse & button to draw, click on rt.border for menu"
+2017  print "Press Open-Apple to erase"
+2020  print  chr$ (4)"PR#4": print  chr$ (1): print  chr$ (4)"PR#0"
+2030  vtab 1: gosub 420
+2031 X = X + 1:Y = Y + 1
+2035  if X > 131 then X = 131
+2036  if Y > 131 then Y = 131
+2040  poke 233,3: xdraw 2 at X,Y: xdraw 2 at X,Y
+2045  if  peek ( - 16287) > 127 then  hcolor= 0: draw 2 at X,Y
+2050  hcolor= C: if S < 3 then  hplot X,Y
+2053  if OS < 3 then  hplot  to OX,OY
+2055  if S < 3 and X = 131 then 2070
+2057 OS = S:OX = X:OY = Y
+2060  goto 2030
+2070  gosub 300
+2071 ME$(1) = "Save picture":ME$(2) = "Load picture":ME$(3) = "Clear picture":ME$(4) = "Continue drawing":ME$(5) = "Go to main menu":ME = 5: gosub 110: gosub 90
+2080  if MX = 4 then 2030
+2090  if MX = 3 then 2000
+2100  if MX = 5 then 200
+2110  if MX = 1 then 2150
+2120  if MX = 2 then 2250
+2150  text : home 
+2160  print  chr$ (4)"cat,t$01"
+2170  print "Name to save as?"
+2175  print "(If the name you want to save as is      listed above, just press return)"
+2180  input "";A$
+2181  if A$ <  > "" then 2190
+2182  print "Now type the name to save as"
+2183  input "";A$: print  chr$ (4)"delete"A$
+2190  print  chr$ (4)"create"A$",t$01"
+2191  print  chr$ (4)"open"A$",t$01": print  chr$ (4)"write"A$
+2192  gosub 300
+2200  for Y = 0 to 131:A =  int (Y / 8):C = Y - A * 8:B = C * 1024 + A * 128 - ((A > 7) + (A > 15)) * 984 + 8192
+2210  for X = 0 to 18:G =  peek (B + X): if G = 4 or G = 132 then G = 6
+2215  print  chr$ (G);: next : next : print : print  chr$ (4)"CLOSE"
+2220  goto 2070
+2250  text : home 
+2260  print  chr$ (4)"cat,t$01"
+2270  print "File to load?"
+2280  input "";A$
+2290  gosub 300
+2300 FI$ = A$: gosub 390: goto 2070
+2310  for X = 0 to 18: get K$: poke B + X, asc (K$): next : next : print  chr$ (4)"close": goto 2070
+5000 ME$(1) = "Print Border":ME$(2) = "Don't Print Border":ME = 2: gosub 90: gosub 110: hcolor= (2 - MX) * 3: hplot 0,0 to 131,0 to 131,131 to 0,131 to 0,0
+5010 ME$(1) = "Full Size":ME$(2) = "1/4 Size":ME = 2: gosub 90: gosub 110
+5015  print  chr$ (4)"pr#1"
+5016  print  chr$ (27)"Q": print  chr$ (27)"T11": print  chr$ (9)"137N"
+5020  poke 232,0: poke 233,3: for Y = 0 to 131 step MX
+5025  if MX = 1 then  scale= 132: xdraw 3 at 0,Y: xdraw 3 at 0,Y:Q =  peek (234): scale= 1: if Q = 0 then  print : goto 5050
+5030  for X = 0 to 131 step MX
+5040  if X <  > 500 then  xdraw MX at X,Y: xdraw MX at X,Y:MA$ = " ": if  peek (234) then MA$ = "="
+5045  print MA$;: next : print 
+5050  next : print  chr$ (4)"pr#0": return 

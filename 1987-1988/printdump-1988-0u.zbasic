@@ -1,0 +1,103 @@
+00001 :
+00002 MODE 5:CLS:POKE WORD &85,0
+00003 PRINT "Type your printer 8 lines per inch"
+00004 PRINT "command (press return for ESC B)"
+00005 INPUT "|:- ";SETUP$
+00006 IF SETUP$="" THEN SETUP$=CHR$(27)+"B"
+00007 PRE$="/"
+00008 CLS
+00009 :
+00010 PRINT "MICR0FISCHE PROUDLY PRESENTS"
+00011 PRINT
+00012 PRINT"===== =          "
+00013 PRINT"  =   ====   === "
+00014 PRINT"  =   =   = = ==="
+00015 PRINT"  =   =   = =    "
+00016 PRINT"  =   =   =  === "
+00017 PRINT
+00018 PRINT"=====       =       = "
+00019 PRINT"=    =  ===   ===  ==="
+00020 PRINT"=    = =    = =  =  ="
+00021 PRINT"=====  =    = =  =  ="
+00022 PRINT"=      =    = =  =  ="
+00023 PRINT"=      =    = =  =   =="
+00024 PRINT
+00025 PRINT"===="
+00026 PRINT"=   = =   = ====  ==="
+00027 PRINT"=   = =   = = = = =  ="
+00028 PRINT"=   = =   = = = = =  ="
+00029 PRINT"=   = =   = = = = =  ="
+00030 PRINT"====   ==== = = = ==="
+00031 PRINT"                  ="
+00032 PRINT"Copyright 1988 Eric Fischer   (KEY)"
+00033 WHILE INKEY$="":WEND
+00034 :
+00035 "MAINMENU"
+00036 CLOSE
+00037 CLS
+00038 PRINT ":::::::::::::::::::::::::::::::::::::"
+00039 PRINT ":::: T H E   P R I N T   D U M P ::::"
+00040 PRINT ":::::::::::::::::::::::::::::::::::::"
+00041 PRINT
+00042 PRINT "1. Greeting Card":PRINT
+00043 PRINT "2. Sign":PRINT
+00044 PRINT "3. Letterhead":PRINT
+00045 PRINT "4. Graphics Editor":PRINT
+00046 PRINT "5. Quit"
+00047 PRINT
+00048 PRINT "Choose one of the above..."
+00049 "MENULOOP"
+00050 KEY$=INKEY$
+00051 IF KEY$="1" THEN "CARD"
+00052 IF KEY$="2" THEN "SIGN"
+00053 IF KEY$="3" THEN "LETT"
+00054 IF KEY$="4" THEN "GRAP"
+00055 IF KEY$="5" THEN END
+00056 GOTO "MENULOOP"
+00057 :
+00058 "CARD"
+00059 TI$="|:- GREETING CARD -:|"
+00060 :
+00061 GOSUB "PICSEL"
+00062 GOTO "SKIPSEL"
+00063 :
+00064 "PICSEL"
+00065 CLS
+00066 PRINT TI$:PRINT
+00067 PRINT "PREFIX: ";PRE$
+00068 PRINT
+00069 PRINT"Press P to change prefix, space to"
+00070 PRINT"list files, or press return and type"
+00071 PRINT"your file to load it.  Or press esc"
+00072 PRINT"If you don't want a picture."
+00073 "SELOOP"
+00074 KEY$=INKEY$
+00075 LONG IF KEY$="P"
+00076 INPUT @(0,2);"PREFIX? ";PRE$
+00077 Q$=RIGHT$(PRE$,1):IF Q$<>"/" THEN PRE$=PRE$+"/"
+00078 GOTO "PICSEL"
+00079 END IF
+00080 IF KEY$=" " THEN "LISTFILES"
+00081 IF KEY$=CHR$(27) THEN RETURN
+00082 IF KEY$=CHR$(13) THEN INPUT @(0,22);"File? ";FILE$:RETURN
+00083 GOTO "SELOOP"
+00084 "LISTFILES"
+00085 OPEN "I",#1,PRE$
+00086 FOR Q=1 TO 3
+00087 INPUT #1,LIN$
+00088 PRINT LIN$
+00089 NEXT
+00090 "READLOOP"
+00091 INPUT #1,LIN$
+00092 PRINT LN$
+00093 Q$=LEFT$(LIN$,2)
+00094 IF Q$="BL" THEN "DONEREAD"
+00095 PRINT MID$(LIN$,18,3);
+00096 GOTO "READLOOP"
+00097 "DONEREAD" CLOSE #1:GOTO "SELOOP"
+00098 :
+00099 "SKIPSEL"
+00100 "SIGN"
+00101 "LETT"
+00102 "GRAP"
+65535 RETURN
