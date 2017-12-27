@@ -1,3 +1,6 @@
+# Original program (https://github.com/ericfischer/learning-to-program/issues/3)
+# is written without indentation
+
 100	call rech ::
 	dim wrd$(30)
 110	!
@@ -10,8 +13,8 @@
 	next a
 
 160	call magnify(2) ::
-	gosub 350 ::
-	gosub 440 ::
+	gosub 350 ::						# title screen
+	gosub 440 ::						# title music
 	display at (23, 1) : "  PRESS ANY KEY TO BEGIN."
 
 # Title screen loop
@@ -64,7 +67,7 @@
 410	next a
 420	return
 
-# "Music" for title screen
+# Music for title screen
 
 430	! Music for title screen
 440	for a = 110 to 440 step 10
@@ -265,7 +268,7 @@
 1280	if a$ = "c" or a$ = "C" then a = 3
 1290	if a$ = "d" or a$ = "D" then a = 4
 
-# Undocumented option that goes back to the title screen
+# Secret option that goes back to the title screen
 
 1300	if a$ = "e" or a$ = "E" then 1320
 1310	goto 1330
@@ -276,7 +279,12 @@
 	goto 110
 
 # This is very strange because 1540 just returns,
-# and 1340 should be a goto
+# and 1340 should be a goto.
+
+# Does nothing or restores back to the start of the data
+# and goes back to the level prompt.
+
+# The goto at the end of each round goes back to here.
 
 1330	b = b + 1 ::
 	call clear ::
@@ -320,3 +328,134 @@
 	else
 		restore 1020 ::
 		return
+
+# Level C
+
+1390	if b = 1 then
+		restore 1070 ::
+		return
+	else if b = 2 then
+		restore 1100 ::
+		return
+	else if b = 3 then
+		restore 1110 ::
+		return
+	else
+		restore 1080 ::
+		return
+
+# Level D
+
+1400	if b = 1 then
+		restore 1130 ::
+		return
+	else if b = 2 then
+		restore 1160 ::
+		return
+	else if b = 3 then
+		restore 1170 ::
+		return
+	else
+		restore 1140 ::
+		return
+
+# Set up loop start, end, and increment
+# Weird choice of variable names, and
+# weird order to write them in here
+
+1410	if b = 1 or b = 4 then
+		r = -1 ::
+		l = 1 ::
+		st = 20
+1420	if b = 2 or b = 3 then
+		r = 1 ::
+		l = 20 ::
+		st = 1
+
+1430	for q = st to l step r
+1440		read wrd$(q)
+1450	next q
+
+1460	for q = 1 to 20 ::
+		print wrd$(q); ::
+	next q
+
+1470	r = 0
+1480	print
+1490	call say("GO")
+
+# Timer loop until they press a key
+
+1500	r = r + 1 ::
+	if b = 1 or b = 4 then
+		display at (1,1): "time units:"; r
+	else
+		display at (1,1): "TIME UNITS:"; r
+1510	call key(0, k, s) ::
+	if s = 0 then 1500
+
+1520	call clear ::
+	print "Time units:"; r ::
+	input "": ll$
+1530	goto 1330
+
+# This is a no-op gosub target
+
+1540	return
+
+# This does not appear to be reachable.
+# An earier version must have called this to reset the font
+
+1550	call charset ::
+	call screen(8) ::
+	return
+
+# The font code is written as a "sub" subroutine instead of a gosub.
+# I am pretty sure I did this to make the font code modular so it could
+# be distributed separately, but I don't know why I didn't structure
+# the rest of the program.
+#
+# To be modular, it really shouldn't be changing the screen and character
+# colors here too.
+
+1560	sub rech
+1570		restore 1600
+1580		call screen(6) ::
+		for a = 0 to 14 ::
+			call color(a, 5, 1) ::
+		next a
+
+# I don't know what the "a 126" comment is about
+
+1590		for a = 33 to 126 ::
+			read a$, b$ ::
+			a1 = asc(a$) ::
+			call char(a1, b$) ::
+		next a ! a 126
+
+# It was a very strange choice to put the identification
+# for some characters in the line before the definition
+# instead of keeping them together
+
+1600		data	!,10383838100010,
+			"",6c6c4428,
+			#,28287c287c2828,
+			$,103c50e814781,
+			%,60640810204c0c,
+			&,20505020544834,
+			',60602040,
+			(
+1610		data	  10204040402010,
+			),40201010102040,
+			*,0054386c3854,
+			+,0010107c1010,
+			",",0000000030301020,
+			-,0000007c,
+			.,00000000003030,
+			/
+1620		data	  040c18e06040,
+			0,38444c54644438,
+			1,10301010101038,
+			2,3844041820447c,
+			3,38440418044438,
+			4
