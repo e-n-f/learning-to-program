@@ -1,0 +1,36 @@
+5 PA = 500
+10  dim A$(PA),A(PA)
+20  print  chr$ (4)"open sample.text": print  chr$ (4)"read sample.text"
+30 A$ = ""
+35  if W = (PA) then 150
+40  get K$: if  not ((K$ >  = "a" and K$ <  = "z") or (K$ >  = "A" and K$ <  = "Z")) then 60
+45 A$ = A$ + K$
+50  goto 40
+60  if A$ = "" then 40
+70  if W = 0 then A$(1) = A$:W = 1:A(1) = 1: print A$,1,1: goto 30
+75 F = 0
+80  for N = 1 to W
+90  if A$(N) = A$ then F = N:N = W
+100  next 
+110  if F then A(F) = A(F) + 1
+120  if  not F then W = W + 1:A$(W) = A$:F = W:A(W) = 1
+130  print A$(F),A(F),W
+140  goto 30
+150  print  chr$ (4)"close"
+160  print 
+200 C = 0
+210  for J = 1 to PA - 1
+215  print ".";
+220  for K = J + 1 to PA
+230  if A(K) > A(J) then A = A(K):A$ = A$(K):A(K) = A(J):A$(K) = A$(J):A(J) = A:A$(J) = A$:C = 1
+240  next : next 
+245  print 
+250  if C = 1 then 200
+255  print 
+260  for N = 1 to PA
+270  print A$(N),A(N)
+280  next 
+300  print  chr$ (4)"open dump": print  chr$ (4)"write dump"
+310  for N = 1 to PA: print A$(N)","A(N)
+320  next 
+330  print  chr$ (4)"close"
