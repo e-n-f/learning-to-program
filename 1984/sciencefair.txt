@@ -72,10 +72,10 @@
 460	next a
 
 470	for a = 1 to 5
-480		call sound(220, 440, a * 2)
+480		call sound(220, 440, a * 2)		# a0, a1
 490	next a
 
-500	call sound(1030, 110, 0)
+500	call sound(1030, 110, 0)			# c0
 510	return
 
 # Unused?
@@ -84,7 +84,7 @@
 
 # Sound for A
 
-530	call sound(1000, 262, 0, 196, 0, 165, 0)
+530	call sound(1000, 262, 0, 196, 0, 165, 0)	# c1, g0, e0
 540	return
 
 # Sound for B
@@ -93,7 +93,7 @@
 
 # Sound for C
 
-560	call sound(1000, 392, 0, 196, 0, 165, 0)
+560	call sound(1000, 392, 0, 196, 0, 165, 0)	# g1, g0, e0
 570	return
 
 # Sound for D
@@ -102,7 +102,7 @@
 
 # Sound for E
 
-590	call sound(1000, 440, 0, 220, 0, 175, 0)
+590	call sound(1000, 440, 0, 220, 0, 175, 0)	# a2, a1, f0
 600	return
 
 # Sound for F
@@ -111,12 +111,12 @@
 
 # Sound for G
 
-620	call sound(1500, 392, 0, 196, 0, 165, 0)
+620	call sound(1500, 392, 0, 196, 0, 165, 0)	# g1, g0, e0
 630	return
 
 # Sound for G
 
-640	call sound(1000, 349, 0, 220, 0, 175, 0)
+640	call sound(1000, 349, 0, 220, 0, 175, 0)	# f1, a1, f0
 650	return
 
 # Sound for H
@@ -125,7 +125,7 @@
 
 # Sound for I
 
-670	call sound(1000, 330, 0, 196, 0, 165, 0)
+670	call sound(1000, 330, 0, 196, 0, 165, 0)	# e1, g0, e0
 680	return
 
 # Sound for J
@@ -134,7 +134,7 @@
 
 # Sound for K
 
-700	call dound (750, 294, 0, 196, 0, 175, 0)
+700	call sound (750, 294, 0, 196, 0, 175, 0)	# d1, g0, f0
 710	return
 
 # Sound for L
@@ -163,7 +163,7 @@
 
 # sound for S
 
-780	call sound(1500, 349, 0, 220, 0, 175, 0)
+780	call sound(1500, 349, 0, 220, 0, 175, 0)	# f1, a1, f0
 790	return
 
 # sound for T
@@ -176,31 +176,31 @@
 
 # sound for V
 
-820	call sound(1500, 294, 0, 196, 0, 175, 0)
+820	call sound(1500, 294, 0, 196, 0, 175, 0)	# d1, g0, f0
 830	return
 
 # sound for W
 
 840	for w = 1 to 3 ::
-		cal sound (500, 392, 0, 196, 0, 16, 0) ::
+		call sound (500, 392, 0, 196, 0, 165, 0) ::	# g1, g0, e0
 	next w
 850	return
 
 # sound for X
 
-860	call sound(1000, 294, 0, 175, 0, 196, 0)
+860	call sound(1000, 294, 0, 175, 0, 196, 0)	# d1, f0, g0
 870	return
 
 # sound for Y
 
-880	call sound(1000, 294, 0, 175, 0, 196, 0)
+880	call sound(1000, 294, 0, 175, 0, 196, 0)	# d1, f0, g0
 890	return
 
 # sound for Z
 
 900	!
 910	!
-920	call sound(2000, 262, 0, 165, 0, 196, 0)
+920	call sound(2000, 262, 0, 165, 0, 196, 0)	# c1, e0, g0
 930	return
 
 # Retrieve words
@@ -215,14 +215,108 @@
 940	call clear
 950	data a, and, away, big, blue, can, come, down, find, for, funny, go, help, here, I, in, is, it, jump, little
 960	data look, make, me, my, not, one, play, red, run, said, see, the, three, to, two, up, we, where, yelllow, you
-
 970	! both
+
 980	data A, AND, AWAY, BIG, BLUE, CAN, COME, DOWN, FIND, FOR, FUNNY, GO, HELP, HERE, I, IN, IS, IT, JUMP, LITTLE
 990	data LOOK, MAKE, ME, MY, NOT, ONE, PLAY, RED, RUN, SAID, SEE, THE, THREE, TO, TWO, UP, WE, WHERE, YELLOW, YOU
-
 1000	! CAPS
+
 1010	data all, am, are, at, ate, be, black, brown, byt, came, did, do, eat, four, get, good, have, he, into, like
 1020	data must, new, no, now, on, our, out, please, pretty, ran, ride, saw, say, she, so, soon, that, there, they, this
-
 1030	! both
-1040	
+
+1040	data ALL, AM, ARE, AT, ATE, BE, BLACK, BROWN, BUT, CAME, DID, DO, EAT, FOUR, GET, GOOD, HAVE, HE, INTO, LIKE
+1050	data MUST, NEW, NO, NOW, ON, OUR, OUT, PLEASE, PRETTY, RAN, RIDE, SAW, SAY, SHE, SO, SOON, THAT, THERE, THEY, THIS
+1060	! CAPS
+
+1070	data after, again, an, any, ask, ask, by, could, every, fly, from, give, going, had, has, her, him, how, just
+1080	data let, live, may, of, old, once, open, over, put, round, some, stop, take, thank, them, then, think, walk, were, when
+1090	! both
+
+1100	data AFTER, AGAIN, AN, ANY, AS, ASK, BY, COULD, EVERY, FLY, FROM, GIVE, GOING, HAS, HER, HIM, HIS, HOW, JUST
+1110	data LET, LIVE, MAY, OF, OLD, ONCE, OPEN, OVER, PUT, ROUND, SOME, STOP, TAKE, THANK, THEM, THEN, THINK, WALK, WERE, WHEN
+1120	! CAPS
+
+# Why are these out of order?
+
+1130	data always, around, because, been, before, it's, best, both, buy, call, cold, does, don't, fat, first, five, found, gave, goes, green
+1140	data made, wash, very, which, why, many, off, or, pull, read, right, sing, sit, sleep, tell, their, these, upon, us, use
+1150	! small + caps
+
+# And in a different order on the second round?
+
+1160	data ALWAYS, AROUND, GOES, GREEN, IT'S, BECAUSE, BEEN, BEFORE, BEST, BOTH, BUY, CALL, COLD, DOES, DON'T, FAT, FiRST, FIVE, FOUND, GAVE
+1170	data MADE, MANY, OFF, WASH, WHICH, WHY, OR, PULL, READ, RIGHT, SING, SIT, SLEEP, TELL, THEIR, THESE, UPON, US, USE, VERY
+1180	! CAPS
+
+1190	for a = 1 to 14 ::
+		call color(a, 2, 8) ::
+	next a ::
+	call screen(8)
+
+1200	print "Input reading level (A-D)"
+1210	print
+1220	!
+1230	print
+1240	print
+1250	input "                                     Level:" : a$
+1260	if a$ = "a" or a$ = "A" then a = 1
+1270	if a$ = "b" or a$ = "B" then a = 2
+1280	if a$ = "c" or a$ = "C" then a = 3
+1290	if a$ = "d" or a$ = "D" then a = 4
+
+# Undocumented option that goes back to the title screen
+
+1300	if a$ = "e" or a$ = "E" then 1320
+1310	goto 1330
+1320	for a = 1 to 14 ::
+		call color (a, 5, 6) ::
+	next a ::
+	call screen(6) ::
+	goto 110
+
+# This is very strange because 1540 just returns,
+# and 1340 should be a goto
+
+1330	b = b + 1 ::
+	call clear ::
+	on b gosub 1540, 1540, 1540, 1340
+
+1340	if b = 5 then
+		restore ::
+		b = 0 ::
+		goto 1160
+
+1350	on a gosub 1370, 1380, 1390, 1400
+1360	goto 1410
+
+# Level A
+# Round 4 is always out of sequence with respect to the data section
+
+1370	if b = 1 then
+		restore 950 ::
+		return
+	else if b = 2 then
+		restore 980 ::
+		return
+	else if b = 3 then
+		restore 990 ::
+		return
+	else
+		restore 960 ::
+		return
+
+# Level B
+
+1380	if b = 1 then
+		restore 1010 ::
+		return
+	else if b = 2 then
+		restore 1040 ::
+		return
+	else if b = 3 then
+		restore 1050 ::
+		return
+	else
+		restore 1020 ::
+		return
