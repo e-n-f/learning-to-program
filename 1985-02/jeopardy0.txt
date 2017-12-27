@@ -1,0 +1,155 @@
+0 AIIE = 1: print  chr$ (4)"close":PL = 1
+1  rem      ************
+2  rem      *          *
+3  rem      * JEOPARDY *
+4  rem      *          *
+5  rem      ************
+6  rem  
+7  rem    by Eric Fischer
+8  rem  
+9  rem   Grade 6at Room 18
+10 :
+11  dim SC(2)
+15  text : home : print "THIS IS JEOPARDY!!"
+20  print : print "NOW ENTERING THE STUDIO ARE OUR": print "CONTESTANTS,";
+30 AN$ = "":FL = 13: gosub 1000: if  len (AN$) > 1 then P1$ =  left$ (AN$, len (AN$) - 1)
+40  vtab 4: print "CONTESTANTS,"P1$" & ";:AN$ = "": gosub 1000: if  len (AN$) > 1 then P2$ =  left$ (AN$, len (AN$) - 1)
+45  print "AND THE RETURNING CHAMPION, APPLE TWO-C,WHOSE WINNINGS TOTAL $1275!!"
+50  get K$: home 
+60  rem 
+70  inverse : for X = 1 to 10 step 2: vtab X + 3: for Y = 1 to 5: htab Y * 8 - 5: print (X + 1) / 2"00";: next Y,X
+75  htab 1: vtab 1
+80  vtab 23: print P1$; tab 19);"//c"; tab 41 -  len (P2$));P2$;
+90  htab 1: vtab 1: print "                                        "
+100  dim CT$(5)
+105  print  chr$ (4)"open quesfile": print  chr$ (4)"read quesfile"
+110  for M = 1 to 5: input CT$(M): htab 1: vtab 1: next 
+120  for M = 1 to 5: vtab 1: htab (M * 8 - 7) + 1 * (M = 5): print CT$(M);: next 
+123  normal 
+125  dim ANS(5,5)
+140  dim ANS$(5,5,5): vtab 24: htab 1: poke 34,23: for X = 1 to 5: for Y = 1 to 5: for A = 1 to 5: htab 1: vtab 3
+150  input "";ANS$(X,Y,A): vtab 3: next A: input "";AN(X,Y): next Y,X
+233  normal : print  chr$ (4)"CLOSE"
+234  poke 32,1: poke 33,38
+237  vtab 24: print "                                       ";: vtab 20
+240 TM = 0
+245  poke 34,15: poke 35,21
+250  vtab 24: htab 1: print SC(1)" ";: htab 18: print SC(0)" ";: htab 32: print SC(2)" ";
+251  if USED = 25 then 30000
+253  gosub 9000: rem  Get Input
+254  if ANS$(X,Y,1) = "*" then 253
+255  gosub 10000: rem    Print Question
+256 ANS$(X,Y,1) = "*":USED = USED + 1
+257  if TM > 250 then 6020
+258 TM = TM + 1: htab 1: vtab 22: print 251 - TM;"  ";
+260  if  peek ( - 16287) < 128 and  peek ( - 16286) < 128 then TM = TM + 1: goto 257
+265 PL = ( peek ( - 16287) > 127) + 2 * ( peek ( - 16286) > 127): if PL > 2 or PL < 1 then 260
+266  vtab 22: htab 18: print "             ";: htab 18: if PL = 1 then  print P1$;: goto 270
+268  print P2$;
+270  gosub 8000: rem    Print Choices
+280  if  peek ( - 16384) < 128 then 280
+290 X$ =  chr$ ( peek ( - 16384) - 128): poke  - 16368,0
+300  rem    Get Input from Keyboard
+305  if  val (X$) = 0 then 280
+310  if  val (X$) <  > AN(X,Y) - 0 then 330
+315  if  val (X$) = AN(X,Y) - 0 then 6000
+320  goto 280
+330  vtab 20
+340  print "Sorry! You didn't get it.": get K$:SC(PL) = SC(PL) - (Y * 100): gosub 7000: goto 257
+500  goto 6000
+999  end 
+1000  rem     *** INPUT ROUTINE ***
+1020  rem     SEPT, 1982 BY B. TOGNAZZINI
+1030  rem     REV2, SEPT 1983  B. TOGNAZZINI
+1350  rem     * TAKE INPUT *
+1400 I = 5:J = 0:K = 0:L = 0:M = 0:I$ = "":ESC = 0:OA = 0:OA$ = "":SA = 0:SA$ = "": if FL = 0 then FL = 245
+1420  if  not AIIE then  input "";AN$: return 
+1450  print AN$;:J =  len (AN$)
+1490 M =  peek (37)
+1530 L =  peek (36): if COL80 then  if L =  peek (1147) then L =  peek (1403)
+1550  print I$;" ";
+1600 N = 1: if  peek (37) =  peek (35) - 1 then  if L +  len (I$) >  =  peek (33) - 3 then N = 0
+1650  poke 36,L: poke 1403,L: vtab M + 1
+1680  if  len (I$) = 0 then I$ = " "
+1700 I = I - 1: if I < 0 then K = 1 - K:I = 3 + 8 *  not K: print  chr$ ( asc (I$) *  not K + 95 * K * ( asc (I$) <  > 95) + 32 * K *  not ( asc (I$) <  > 95));
+1750  poke 36,L: poke 1403,L: vtab M + 1
+1800 P =  peek ( - 16384): if P < 128 then 1700
+1950  poke  - 16368,0:K = 0:I = 0
+2100  if P > 159 and P <  > 255 then  if J +  len (I$) < FL then  if N then AN$ = AN$ +  chr$ (P - 128):J = J + 1: print  chr$ (P);: goto 1490
+2150  if P <  > 255 then 2400
+2200  if J then  print " ";: poke 36,L: poke 1403,L: vtab M + 1: print  chr$ (136);:J = J - 1
+2250  if J = 0 then AN$ = ""
+2300  if J then AN$ =  left$ (AN$,J)
+2350  goto 1490
+2400  if P <  > 136 then 2650
+2450  if J then  print " ";: poke 36,L: poke 1403,L: vtab M + 1: print  chr$ (136);:I$ =  right$ (AN$,1) + I$:J = J - 1
+2500  if J = 0 then AN$ = ""
+2550  if J then AN$ =  left$ (AN$,J)
+2600  goto 1490
+2650  if P = 141 then AN$ = AN$ + I$: print I$;" ": return 
+2700  if P <  > 149 then 2960
+2750  if  not  len (I$) then 1490
+2800 AN$ = AN$ +  left$ (I$,1):J = J + 1: print  left$ (I$,1);
+2850  if  len (I$) = 1 then I$ = ""
+2900  if  len (I$) then I$ =  right$ (I$, len (I$) - 1)
+2920  goto 1490
+2960  goto 1490
+4000  rem  *** SCREEN FORMATTER ***#
+4010  rem  STRING TO BE PRINTED IN AN$
+4020  rem  IF 80 COLUMN BOARD IS TURNED ON, MAKE SURE COL80 = 1.  IF BOARD IS NOT TO BE USED, MAKE SURE COL80 = 0.
+4030  rem  USES I,J,I$
+4040  rem  ROUGH EQUIVALENT OF  PRINT AN$;" ";
+4050  rem   USES AIIE SET BY COMPUTER IDENTIFIER ROUTINE
+4060  rem  USUALLY LEAVES 1 EXTRA BLANK AT END OF LINE
+4070  rem  PERFORMS WORD-WRAP AND WILL CONVERT LOWER- TO UPPER-CASE IF USED INSIDE AN APPLE II OR II+
+4100 I =  len (AN$): if  not I then  return 
+4110 P =  peek (36): if COL80 then  if P =  peek (1147) then P =  peek (1403): rem  FIND CURRENT HORIZ POSITION WITH 80 COLUMN CARD TURNED ON
+4120  if  not P then  if I > 1 then  if  asc (AN$) = 32 then AN$ =  right$ (AN$,I - 1)
+4130  if P + 2 + I <  peek (33) and AIIE then  print AN$;" ";:AN$ = "": return : rem  EXPRESS CHECK-OUT
+4140  if I > 1 then  if  right$ (AN$,1) = " " then AN$ =  left$ (AN$,I - 1)
+4170  if P + I <  peek (33) then I$ = AN$:AN$ = "": goto 4400
+4200 J =  peek (33) - P + 2:I = J
+4250 I = I - 1: if I then  if  mid$ (AN$,I,1) <  > " " then 4250
+4300  if I = 1 then I = J
+4310  if I = 0 then  print : goto 4100
+4350 I$ =  left$ (AN$,I - 1): if  len (AN$) > I then AN$ =  right$ (AN$, len (AN$) - I): rem  ISOLATE 1 LINE IN I$
+4400  if AIIE then  print I$;
+4450  if  not AIIE then K =  len (I$) + 1: for I = 1 to  len (I$):J =  asc ( right$ (I$,K - I)): print  chr$ (J - 32 * (J > 96 and J < 123));: next I
+4470 P =  peek (36): if COL80 then  if P =  peek (1147) then P =  peek (1403)
+4500  if  len (AN$) then  if P <  > 0 then  print 
+4550  if  len (AN$) then 4100
+4600  if P <  > 0 then  if  mid$ (I$, len (I$),1) <  > " " then  print " ";
+4650  return 
+6000  home : gosub 7000: rem    Blank Window
+6010  vtab 20: print "Hey! You got it!":SC(PL) = SC(PL) + (Y * 100): get K$: goto 240
+6020 SC(0) = SC(0) + (100 * Y): htab 1: vtab 20:AN$ = "The correct answer was " + AN$(X,Y,AN(X,Y) + 1): gosub 4000: get K$: home : goto 240
+7000  for M = 1 to 48: print : next : home : return 
+8000  vtab 19: htab 1: for M = 2 to 5: print M - 1".  ";ANS$(X,Y,M): next : return 
+9000  home : gosub 7000
+9010  if PL = 1 then  print P1$" ";
+9020  if PL = 2 then  print P2$" ";
+9030  print "please press a-e to select column (across)."
+9040  get X$:X =  asc (X$) - 64
+9050  print "Please press 1-5 to select row (down.)"
+9060  get Y$:Y =  val (Y$)
+9070  if X < 0 or Y < 0 or X > 5 or Y > 5 then 9000
+9080  gosub 7000: return 
+9500 Y = YY / 8:Y = Y / 2:Y = Y - 1.5:Y =  int (Y): if Y > 6 then 9000
+9510 X = XX / 7:X = (X + 5) / 8:X =  int (X): if X > 5 then 9000
+9520  return 
+10000  home :AN$ = AN$(X,Y,1): gosub 4000: vtab Y * 2 + 2: htab X * 8 - 6: print "...";: return 
+11000  xdraw 1 at 0,0: print  chr$ (4)"pr#4": print  chr$ (1): print  chr$ (4)"pr#0"
+11050 XO = 0:YO = 0: return 
+12000  home : print  chr$ (4)"IN#4": input "";XX,YY,L: print  chr$ (4)"in#0"
+12010  if XX <  > OX or YY <  > OY then  xdraw 1 at XX,YY: xdraw 1 at OX,OY:OX = XX:OY = YY
+12020  return 
+30000  home :AN$ = "The game is over. Please press a key.": gosub 4000: get K$
+30010  run 
+59987  print  chr$ (4)"open JEO": print  chr$ (4)"write JEO": list : print  chr$ (4)"cloSE": end 
+59999  rem  
+60000  rem    Jeopardy is a registered
+60001  rem     trademark of Jeopardy
+60002  rem        Productions, Inc.
+60003  rem             
+60004  rem  
+60005  rem       Copyright (C) 1985
