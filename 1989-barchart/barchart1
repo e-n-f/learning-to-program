@@ -1,0 +1,33 @@
+1  text : home 
+5  input "RANDOM/CHOSEN (0/1): ";RAN
+10  hgr 
+15  home : vtab 24
+20  input "NUMBER OF BARS: ";NB
+23 W = (279 / (NB + 3))
+25  dim H(NB)
+27  input "MAX HEIGHT: ";MH:HH = (160 - W) / MH
+30  for N = 1 to NB
+33  on RAN + 1 goto 35,40
+35 H =  int (MH *  rnd (1)):H(N) = H * HH: goto 50
+40  print "BAR #"N;: input ": ";H:H(N) = HH * H
+50  next 
+55  gosub 1000
+57  home 
+60  for N = NB to 1 step  - 1
+65 H = (N * W + W) / 7 + 1:V = H(N) / HH: gosub 3000
+70  for H = 160 to 160 - H(N) step  - 1
+80  hcolor= 5
+90  hplot N * W + W,H to N * W,H - W
+100  hcolor= 6: hplot N * W + W,H to N * W + W * 2,H
+105  hcolor= 7: hplot N * W + W * 2,H to N * W + W * 2 + 1,H
+110  next 
+115  hcolor= 7
+120  for A = 0 to W - 1
+130  hplot N * W + W - A,H - A to N * W + W * 2 - A,H - A
+140  next 
+200  next 
+999  get K$: text : end 
+1000  for A = W * 2 to (NB + 2) * W step W: hcolor= 7: hplot A,160 to A - W,160 - W: hplot A - W,160 - W to A - W,0: hplot A - W + 1,160 - W to A - W + 1,0: next 
+1010  hplot 0,159 to 279,159: hplot 0,160 - W to 279,160 - W
+1999  return 
+3000  return 

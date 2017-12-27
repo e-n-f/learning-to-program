@@ -1,0 +1,57 @@
+1  text : home 
+5  print "RANDOM/CHOSEN (R/C): ";: get R$:RAN = R$ = "C"
+10  hgr 
+15  home : vtab 24
+20  input "NUMBER OF BARS: ";NB
+23 W = (279 / (NB + 3))
+25  dim H(NB)
+27  input "MAX HEIGHT: ";MH:HH = (160 - W) / MH
+28  input "BACKDROP (NOTHING FOR BLANK): ";M$: if M$ = "" then 30
+29  print  chr$ (4)"BLOAD "M$",A$2000"
+30  for N = 1 to NB
+33  on RAN + 1 goto 35,40
+35 H =  int (MH *  rnd (1)) + 1:H(N) = H * HH: goto 50
+40  print "BAR #"N;: input ": ";H:H(N) = HH * H
+50  next 
+55  if M$ = "" then  gosub 1000
+57  home 
+58  gosub 4000
+59  home : poke 230,32: poke  - 16304,0: poke  - 16301,0: poke  - 16297,0: poke  - 16300,0
+60  for N = NB to 1 step  - 1
+65 H = (N * W + W) / 7 + 1:V = H(N) / HH: gosub 3000
+70  for H = 160 to 160 - H(N) step  - 1
+80  hcolor= 5
+90  hplot N * W + W,H to N * W,H - W
+100  hcolor= 6: hplot N * W + W,H to N * W + W * 2,H
+105  hcolor= 7: hplot N * W + W * 2,H to N * W + W * 2 - 1,H
+110  next 
+115  hcolor= 7
+120  for A = 0 to W - 1
+130  hplot N * W + W - A,H - A to N * W + W * 2 - A,H - A
+140  next 
+200  next 
+205  print : vtab 24
+207  poke  - 16368,0
+210  print "Name of graph to save on disk"
+220  input "(blank not to save):         ";N$
+230  if N$ <  > "" then  print  chr$ (4)"BSAVE "N$",A$2000,L$2000"
+999  get K$: text : end 
+1000  for A = W * 2 to (NB + 2) * W + 1 step W: hcolor= 7: hplot A,160 to A - W,160 - W: hplot A -  int (W),160 -  int (W) to A -  int (W),0: hplot A -  int (W) + 1,160 -  int (W) to A -  int (W) + 1,0
+1005  next 
+1010  hplot 0,159 to 279,159: hplot 0,160 - W to 279,160 - W
+1999  return 
+3000  return 
+4000  text : home 
+4010  print "1. Change values"
+4020  print "2. Draw graph"
+4030  get K$: if K$ = "1" or K$ = "2" then 4050
+4040  goto 4000
+4050  if K$ = "2" then  return 
+4055  print "Values: "
+4056  for N = 1 to NB: print "#"N": "H(N) / HH: if  peek ( - 16384) > 127 then  poke  - 16368,0:N = NB + 1
+4057  next 
+4060  input "Change which bar:";N$:N =  val (N$)
+4070  if N > NB or N < 1 or N <  >  int (N) then 4000
+4080  print "Current value: ";H(N) / HH
+4090  input "New value:     ";H:H(N) = H * HH
+4100  goto 4000
