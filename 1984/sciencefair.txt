@@ -425,7 +425,9 @@
 			call color(a, 5, 1) ::
 		next a
 
-# I don't know what the "a 126" comment is about
+# The "a 126" comment must have been to remind me what the loop end
+# should be before I got all the characters done. I accidentally
+# skipped 'l' and '`' and had to add them at the end.
 
 1590		for a = 33 to 126 ::
 			read a$, b$ ::
@@ -434,7 +436,7 @@
 		next a ! a 126
 
 # It was a very strange choice to put the identification
-# for some characters in the line before the definition
+# for many characters in the line before the definition
 # instead of keeping them together
 
 1600		data	!,10383838100010,
@@ -459,3 +461,9 @@
 			2,3844041820447c,
 			3,38440418044438,
 			4
+
+...
+
+1740		data	|,30101010101038,
+			l,6060403
+1750	subend
