@@ -1,0 +1,27 @@
+;; minimax.scheme
+
+;; eric fischer
+;; enf1
+
+;; a lot more after midnight than the last one
+;; 31 jan 1994
+
+;; wow, this is ugly-looking.
+
+(define (minmax list)
+  (cond ((null? list) 0)
+        ((null? (cdr list)) (cond ((list? (car list)) (maxmin (car list)))
+                                  (else (car list))))
+        ((list? (car list)) (min (maxmin (car list))
+                                 (minmax (cdr list))))
+        (else (min (car list)
+                   (minmax (cdr list))))))
+
+(define (maxmin list)
+  (cond ((null? list) 0)
+        ((null? (cdr list)) (cond ((list? (car list)) (minmax (car list)))
+                                  (else (car list))))
+        ((list? (car list)) (max (minmax (car list))
+                                 (maxmin (cdr list))))
+        (else (max (car list)
+                   (maxmin (cdr list))))))

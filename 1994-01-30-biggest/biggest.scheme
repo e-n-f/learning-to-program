@@ -1,0 +1,12 @@
+;; biggest.scheme
+
+;; eric fischer
+;; enf1
+
+;; about nine minutes past midnight
+;; 31 jan 1994
+
+(define (maxlist list)
+  (cond ((null? list) 0)
+        (else (max (car list)
+                   (maxlist (cdr list))))))
